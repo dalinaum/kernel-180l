@@ -124,7 +124,7 @@
 #define TUNING_RECOGNITION_MAIN_AIF1ADCL_VOL 0xC0 // 400h
 #define TUNING_RECOGNITION_MAIN_AIF1ADCR_VOL 0xC0 // 401h
 
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 // Voice Call 3P-EAR, SPK : sub mic
 #define TUNING_VOICE_CALL_SPK_INPUTMIX_VOL      0x0B // 18h
 
@@ -1048,7 +1048,7 @@ void wm8994_record_headset_mic(struct snd_soc_codec *codec)
         audio_ctrl_mic_bias_gpio(0);	
         audio_ctrl_earmic_bias_gpio(1);
 
-#ifdef FEATURE_ANRD_KOR_LGU //kkuram 2011.03.24
+#ifdef CONFIG_KOR_MODEL_M180L //kkuram 2011.03.24
         if(wm8994->codec_state & VOICE_CALL_ACTIVE)
 #else
         if(!(wm8994->codec_state & CALL_ACTIVE))	// Normal case
@@ -1228,7 +1228,7 @@ void wm8994_record_headset_mic(struct snd_soc_codec *codec)
         wm8994_write( codec, WM8994_GPIO_1, 0xA101 );   // GPIO1 is Input Enable
 }
 
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 void wm8994_videophone_onboard_mic(struct snd_soc_codec *codec)
 {
 	struct wm8994_priv *wm8994 = codec->drvdata;
@@ -1970,7 +1970,7 @@ void wm8994_record_main_mic(struct snd_soc_codec *codec)
 			val = wm8994_read(codec, WM8994_AIF1_ADC1_FILTERS);
 			val &= ~(WM8994_AIF1ADC1L_HPF_MASK | WM8994_AIF1ADC1R_HPF_MASK);
 			val |= (WM8994_AIF1ADC1L_HPF | WM8994_AIF1ADC1R_HPF);
-#if defined (CONFIG_TARGET_LOCALE_USAGSM) || defined (FEATURE_ANRD_KOR_LGU)	//P1_LGU : ASR Test idle noise : ox1800 -> 0x3800 
+#if defined (CONFIG_TARGET_LOCALE_USAGSM) || defined (CONFIG_KOR_MODEL_M180L)	//P1_LGU : ASR Test idle noise : ox1800 -> 0x3800 
 			wm8994_write(codec, WM8994_AIF1_ADC1_FILTERS ,0x3800);
 #else
 			wm8994_write(codec, WM8994_AIF1_ADC1_FILTERS ,val);
@@ -4247,7 +4247,7 @@ void wm8994_set_voicecall_receiver(struct snd_soc_codec *codec)
 void wm8994_set_voicecall_headphone(struct snd_soc_codec *codec)
 {
 
-#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(FEATURE_ANRD_KOR_LGU)
+#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(CONFIG_KOR_MODEL_M180L)
 	struct wm8994_priv *wm8994 = codec->drvdata;
 
 	int val;
@@ -4715,7 +4715,7 @@ void wm8994_set_voicecall_headphone(struct snd_soc_codec *codec)
 
 void wm8994_set_voicecall_headset(struct snd_soc_codec *codec)
 {
-#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(FEATURE_ANRD_KOR_LGU)
+#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(CONFIG_KOR_MODEL_M180L)
 	struct wm8994_priv *wm8994 = codec->drvdata;
 
 	int val;
@@ -4775,7 +4775,7 @@ void wm8994_set_voicecall_headset(struct snd_soc_codec *codec)
             val |= (WM8994_IN1R_VU|TUNING_LOOPBACK_EAR_INPUTMIX_VOL);
 		wm8994_write(codec, WM8994_RIGHT_LINE_INPUT_1_2_VOLUME, val);
 
-#ifdef FEATURE_ANRD_KOR_LGU	//kkuram_101108
+#ifdef CONFIG_KOR_MODEL_M180L	//kkuram_101108
 		// After voicecall recording, headset unplugged => speaker rx mute
 		val = wm8994_read(codec, WM8994_INPUT_MIXER_3);
 		val &= ~(WM8994_IN1L_MIXINL_VOL_MASK | WM8994_MIXOUTL_MIXINL_VOL_MASK);
@@ -5332,7 +5332,7 @@ void wm8994_set_voicecall_speaker(struct snd_soc_codec *codec)
 
 	audio_ctrl_mic_bias_gpio(1);
 
-#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(FEATURE_ANRD_KOR_LGU)
+#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(CONFIG_KOR_MODEL_M180L)
        wm8994_write(codec, WM8994_DAC1_LEFT_MIXER_ROUTING, 0x0001); // AIF1L enable: AP connect
 	wm8994_write(codec, WM8994_DAC1_RIGHT_MIXER_ROUTING, 0x0001); // AIF1R enable: AP connect 
 	//wm8994_write(codec,WM8994_DAC1_MIXER_VOLUMES, 0x000C); // DAC volume
@@ -5348,7 +5348,7 @@ void wm8994_set_voicecall_speaker(struct snd_soc_codec *codec)
 	
 	if(!wm8994->testmode_config_flag)
 	{
-#ifdef FEATURE_ANRD_KOR_LGU	//kkuram_101108
+#ifdef CONFIG_KOR_MODEL_M180L	//kkuram_101108
 		// After voicecall recording, headset plugged => headset rx mute
 		val = wm8994_read(codec, WM8994_INPUT_MIXER_4);
 		val &= ~( WM8994_IN1R_MIXINR_VOL_MASK | WM8994_MIXOUTR_MIXINR_VOL_MASK);
@@ -5847,7 +5847,7 @@ void wm8994_set_voicecall_speaker(struct snd_soc_codec *codec)
 
 void wm8994_set_voicecall_bluetooth(struct snd_soc_codec *codec)
 {
-#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(FEATURE_ANRD_KOR_LGU)
+#if defined(CONFIG_TARGET_LOCALE_KOR) && defined(CONFIG_KOR_MODEL_M180L)
 	u16 val;
 
 	/* GPIO Configuration */
@@ -6287,7 +6287,7 @@ void wm8994_set_voicecall_record(struct snd_soc_codec *codec, int channel)
 
         if(wm8994 ->call_record_path == CALL_RECORDING_MAIN )
         {
-#ifdef FEATURE_ANRD_KOR_LGU	//kkuram_101108
+#ifdef CONFIG_KOR_MODEL_M180L	//kkuram_101108
                 val = wm8994_read(codec, WM8994_POWER_MANAGEMENT_2);
                 if (val & WM8994_IN1L_ENA)
                 {
@@ -6389,7 +6389,7 @@ void wm8994_set_voicecall_record(struct snd_soc_codec *codec, int channel)
         }
         else if(wm8994 ->call_record_path == CALL_RECORDING_SUB)
         {
-#ifdef FEATURE_ANRD_KOR_LGU //kkuram_101108
+#ifdef CONFIG_KOR_MODEL_M180L //kkuram_101108
                 val = wm8994_read(codec, WM8994_POWER_MANAGEMENT_2);
                 if (val & WM8994_IN1R_ENA)
                 {
@@ -6535,7 +6535,7 @@ void wm8994_set_voicecall_record_off(struct snd_soc_codec *codec)
 	wm8994_write(codec,WM8994_AIF1_ADC1_RIGHT_MIXER_ROUTING,0x0000);
 }
 
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 void wm8994_set_videocall_receiver(struct snd_soc_codec *codec)
 {
     //if (Ignore_Set_Rcv==1)
@@ -7751,7 +7751,7 @@ void wm8994_set_voipcall_receiver(struct snd_soc_codec *codec)
 */
 }
 
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 void wm8994_set_voipcall_speaker(struct snd_soc_codec *codec)
 {
 	struct wm8994_priv *wm8994 = codec->drvdata;
@@ -7795,7 +7795,7 @@ void wm8994_set_voipcall_headphone(struct snd_soc_codec *codec)
     printk(KERN_DEBUG "[WM8994] wm8994_set_voipcall_headphone() ---\n");
 }
 
- #else /*FEATURE_ANRD_KOR_LGU*/
+ #else /*CONFIG_KOR_MODEL_M180L*/
 
 void wm8994_set_voipcall_speaker(struct snd_soc_codec *codec)
 {
@@ -8089,7 +8089,7 @@ void wm8994_set_voipcall_headset(struct snd_soc_codec *codec)
 	wm8994_write(codec, 0x611, 0x00c0 ); 
 	wm8994_write(codec, 0x420, 0x0000 );
 }
-#endif  /*FEATURE_ANRD_KOR_LGU*/
+#endif  /*CONFIG_KOR_MODEL_M180L*/
 
 
 void wm8994_set_voipcall_bluetooth(struct snd_soc_codec *codec)

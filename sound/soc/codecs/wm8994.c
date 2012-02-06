@@ -142,7 +142,7 @@ static const char * call_recording_channel[] ={"CH_OFF"," CH_UPLINK","CH_DOWNLIN
 #ifdef CONFIG_TARGET_LOCALE_KOR
 static const char *voipcall_path[] = { "OFF", "RCV", "SPK", "HP", "HP_NO_MIC", "BT", };
 #endif
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 static const char *videocall_path[] = { "OFF", "RCV", "SPK", "HP", "HP_NO_MIC", "BT", };
 #endif
 //------------------------------------------------
@@ -184,7 +184,7 @@ select_route universal_wm8994_voipcall_paths[] =
 	wm8994_set_voipcall_bluetooth
 };
 #endif
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 select_route universal_wm8994_videocall_paths[] = 
 {
 	wm8994_set_off,
@@ -495,7 +495,7 @@ static int wm8994_set_playback_path(struct snd_kcontrol *kcontrol,
 	if(wm8994->codec_state & CALL_ACTIVE)
 	{
 		wm8994->codec_state &= ~(CALL_ACTIVE);			
-#if FEATURE_ANRD_KOR_LGU // kbg_101011
+#if CONFIG_KOR_MODEL_M180L // kbg_101011
 		
 		if (wm8994->codec_state & (VOIP_CALL_ACTIVE)) //SAMSUNG
 		    s5pv210_unlock_dvfs_high_level(DVFS_LOCK_TOKEN_3);
@@ -580,7 +580,7 @@ static int wm8994_set_call_path(struct snd_kcontrol *kcontrol,
 	if(wm8994->cur_path != path_num || !(wm8994->codec_state & CALL_ACTIVE))
 	{
 		wm8994->codec_state |= CALL_ACTIVE;
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 		wm8994->codec_state |= (VOICE_CALL_ACTIVE);
 #endif
 		wm8994->cur_path = path_num;
@@ -599,7 +599,7 @@ static int wm8994_set_call_path(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 static int wm8994_get_videocall_path(struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
@@ -1183,7 +1183,7 @@ static const struct soc_enum path_control_enum[] = {
 #ifdef CONFIG_TARGET_LOCALE_KOR
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(voipcall_path), voipcall_path), 
 #endif
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(videocall_path), videocall_path), 
 #endif
 
@@ -1229,7 +1229,7 @@ static const struct snd_kcontrol_new wm8994_snd_controls[] = {
 	SOC_ENUM_EXT("VoIP Call Path", path_control_enum[8],
                 wm8994_get_voip_call_path, wm8994_set_voip_call_path),
 #endif
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011 
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011 
 	SOC_ENUM_EXT("Video Call Path", path_control_enum[9],
                 wm8994_get_videocall_path, wm8994_set_videocall_path),
 #endif
@@ -2161,7 +2161,7 @@ static int wm8994_init(struct wm8994_priv *wm8994_private)
 #ifdef CONFIG_TARGET_LOCALE_KOR
 	wm8994->universal_voipcall_path = universal_wm8994_voipcall_paths;
 #endif
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
     wm8994->universal_videocall_path = universal_wm8994_videocall_paths;
 #endif
 	wm8994->universal_mic_path = universal_wm8994_mic_paths;
