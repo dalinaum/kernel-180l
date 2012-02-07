@@ -61,7 +61,7 @@ enum call_recording_channel {CH_OFF, CH_UPLINK, CH_DOWNLINK, CH_UDLINK};
 #define CAPTURE_ACTIVE		0x02
 #define CALL_ACTIVE			0x04
 #define FMRADIO_ACTIVE		0x08
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 #define VOICE_CALL_ACTIVE		0x10
 #define VIDEO_CALL_ACTIVE		0x20
 #endif
@@ -132,7 +132,7 @@ struct wm8994_priv {
 #ifdef CONFIG_TARGET_LOCALE_KOR
 	select_route *universal_voipcall_path;
 #endif
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
     select_route *universal_videocall_path;
 #endif
 	select_mic_route *universal_mic_path;
@@ -180,7 +180,7 @@ void wm8994_set_voicecall_speaker(struct snd_soc_codec *codec);
 void wm8994_set_voicecall_bluetooth(struct snd_soc_codec *codec);
 void wm8994_set_voicecall_record(struct snd_soc_codec *codec, int path_num);
 void wm8994_call_recording_change_path(struct snd_soc_codec *codec);
-#ifdef FEATURE_ANRD_KOR_LGU // kbg_101011
+#ifdef CONFIG_KOR_MODEL_M180L // kbg_101011
 void wm8994_set_videocall_receiver(struct snd_soc_codec *codec);
 void wm8994_set_videocall_headphone(struct snd_soc_codec *codec);
 void wm8994_set_videocall_headset(struct snd_soc_codec *codec);
